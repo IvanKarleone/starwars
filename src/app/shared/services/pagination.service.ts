@@ -13,12 +13,12 @@ export class PaginationService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getPagination(url: string): Observable<Pagination> {
+  getPagination(url: string, params = new HttpParams()): Observable<Pagination> {
     this.page++;
 
-    const params = new HttpParams().set('page', this.page);
+    params = params.set('page', this.page);
 
-    return this.httpClient.get<Pagination>(url, {params}).pipe(
+    return this.httpClient.get<Pagination>(url, { params }).pipe(
       tap(({ next }: Pagination) => this.isAvailable$$.next(!!next))
     );
   }
