@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 import { CharacterListService } from "./services/character-list.service";
 import { PaginationService } from "../../shared/services/pagination.service";
@@ -26,6 +26,7 @@ export class CharacterListComponent implements OnInit {
   constructor(public characterListService: CharacterListService) { }
 
   ngOnInit() {
+    this.setControlValidators();
     this.characterListService.init();
   }
 
@@ -41,5 +42,9 @@ export class CharacterListComponent implements OnInit {
 
   trackByFn(index: number, character: Character): string {
     return character.url;
+  }
+
+  private setControlValidators(): void {
+    this.searchForm.controls.search.setValidators([Validators.pattern(/^[a-zA-Z0-9\-]*$/)]);
   }
 }

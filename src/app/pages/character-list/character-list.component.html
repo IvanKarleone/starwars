@@ -8,6 +8,11 @@
       type="search"
       placeholder="Enter name"
       [formControl]="searchForm.controls.search">
+    <p
+      *ngIf="searchForm.controls.search.invalid"
+      class="search-field-error">
+      Available only lettres, numbers and symbol "-"
+    </p>
     <button type="submit" [disabled]="searchForm.invalid || (characterListService.isLoading$ | async)">Search</button>
   </form>
   <ng-container *ngIf="characterListService.isExistResults$ | async; else noResults">
