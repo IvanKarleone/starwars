@@ -7,9 +7,9 @@
       class="search-field"
       type="search"
       placeholder="Enter name"
-      [formControl]="searchForm.controls.search">
+      [formControl]="searchControl">
     <p
-      *ngIf="searchForm.controls.search.invalid"
+      *ngIf="searchControl.invalid"
       class="search-field-error">
       Available only lettres, numbers and symbol "-"
     </p>

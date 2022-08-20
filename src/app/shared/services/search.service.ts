@@ -12,8 +12,6 @@ export class SearchService {
   search(value: string, url: string): Observable<Pagination> {
     const params = new HttpParams().set('search', value);
 
-    this.paginationService.reset();
-
     return this.paginationService.getPagination(url, params);
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from "@angular/core";
-import { BehaviorSubject, shareReplay, take, tap } from "rxjs";
+import { BehaviorSubject, Observable, shareReplay, take, tap } from "rxjs";
 
 import { Character } from "../../../shared/models/character";
 import { SearchService } from "../../../shared/services/search.service";
@@ -9,22 +9,22 @@ import { Pagination } from "../../../shared/models/pagination";
 
 @Injectable()
 export class CharacterListService implements OnDestroy {
-  private characterList$$ = new BehaviorSubject<Character[]>([]);
-  characterList$ = this.characterList$$.pipe(
+  private readonly characterList$$ = new BehaviorSubject<Character[]>([]);
+  readonly characterList$ = this.characterList$$.pipe(
     shareReplay(1),
   );
 
-  private isLoading$$ = new BehaviorSubject(false);
-  isLoading$ = this.isLoading$$.pipe(
+  private readonly isLoading$$ = new BehaviorSubject(false);
+  readonly isLoading$ = this.isLoading$$.pipe(
     shareReplay(1),
   );
 
-  private isExistResults$$ = new BehaviorSubject(false);
-  isExistResults$ = this.isExistResults$$.pipe(
+  private readonly isExistResults$$ = new BehaviorSubject(false);
+  readonly isExistResults$ = this.isExistResults$$.pipe(
     shareReplay(1),
   );
 
-  isAvailablePagination$ = this.paginationService.isAvailable$;
+  readonly isAvailablePagination$ = this.paginationService.isAvailable$;
 
   constructor(private searchService: SearchService, private paginationService: PaginationService) { }
 
@@ -34,36 +34,39 @@ export class CharacterListService implements OnDestroy {
     this.isExistResults$$.complete();
   }
 
-  init(): void {
+  init(searchValue: string): void {
     this.paginationService.reset();
-    this.loadCharacters();
+    this.loadCharacters(searchValue);
   }
 
-  loadCharacters(): void {
+  loadCharacters(searchValue: string): void {
     this.isLoading$$.next(true);
 
-    this.paginationService.getPagination(CHARACTER_LIST_URL).pipe(
+    this.handleCharactersAfterLoad(searchValue).pipe(
       take(1),
       tap(({ results }: Pagination) => {
         const characterList = this.characterList$$.value.concat(results);
         this.characterList$$.next(characterList);
-        this.isExistResults$$.next(!!results.length);
-        this.isLoading$$.next(false);
       })
     ).subscribe();
   }
 
   searchCharacters(searchValue: string): void {
+    this.paginationService.reset();
     this.isLoading$$.next(true);
 
-    this.searchService.search(searchValue, CHARACTER_LIST_URL).pipe(
+    this.handleCharactersAfterLoad(searchValue).pipe(
       take(1),
+      tap(({ results }: Pagination) => this.characterList$$.next(results))
+    ).subscribe();
+  }
+
+  private handleCharactersAfterLoad(searchValue: string): Observable<Pagination> {
+    return this.searchService.search(searchValue, CHARACTER_LIST_URL).pipe(
       tap(({ results }: Pagination) => {
-        this.characterList$$.next(results);
         this.isExistResults$$.next(!!results.length);
         this.isLoading$$.next(false);
-
       })
-    ).subscribe();
+    );
   }
 }
