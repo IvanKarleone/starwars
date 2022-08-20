@@ -19,25 +19,27 @@ import { SearchForm } from "./models/search-form";
   ]
 })
 export class CharacterListComponent implements OnInit {
-  searchForm = new FormGroup<SearchForm>({
+  readonly searchForm = new FormGroup<SearchForm>({
     search: new FormControl<string>('', { nonNullable: true })
   });
+
+  get searchControl(): FormControl<string> {
+    return this.searchForm.controls.search;
+  }
 
   constructor(public characterListService: CharacterListService) { }
 
   ngOnInit() {
     this.setControlValidators();
-    this.characterListService.init();
+    this.characterListService.init(this.searchControl.value);
   }
 
   clickShowMore(): void {
-    this.characterListService.loadCharacters();
+    this.characterListService.loadCharacters(this.searchControl.value);
   }
 
   clickSearch(): void {
-    const searchValue = this.searchForm.controls.search.value;
-
-    this.characterListService.searchCharacters(searchValue);
+    this.characterListService.searchCharacters(this.searchControl.value);
   }
 
   trackByFn(index: number, character: Character): string {
@@ -45,6 +47,6 @@ export class CharacterListComponent implements OnInit {
   }
 
   private setControlValidators(): void {
-    this.searchForm.controls.search.setValidators([Validators.pattern(/^[a-zA-Z0-9\-]*$/)]);
+    this.searchControl.setValidators([Validators.pattern(/^[a-zA-Z0-9\-]*$/)]);
   }
 }

@@ -6,8 +6,8 @@ import { Pagination } from "../models/pagination";
 
 @Injectable()
 export class PaginationService {
-  private isAvailable$$ = new BehaviorSubject(true);
-  isAvailable$ = this.isAvailable$$.asObservable();
+  private readonly isAvailable$$ = new BehaviorSubject(true);
+  readonly isAvailable$ = this.isAvailable$$.asObservable();
 
   private page = 0;
 
