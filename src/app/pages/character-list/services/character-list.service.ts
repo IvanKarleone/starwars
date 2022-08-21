@@ -42,7 +42,7 @@ export class CharacterListService implements OnDestroy {
   loadCharacters(searchValue: string): void {
     this.isLoading$$.next(true);
 
-    this.handleCharactersAfterLoad(searchValue).pipe(
+    this.handleCharactersAfterLoad$(searchValue).pipe(
       take(1),
       tap(({ results }: Pagination) => {
         const characterList = this.characterList$$.value.concat(results);
@@ -55,14 +55,14 @@ export class CharacterListService implements OnDestroy {
     this.paginationService.reset();
     this.isLoading$$.next(true);
 
-    this.handleCharactersAfterLoad(searchValue).pipe(
+    this.handleCharactersAfterLoad$(searchValue).pipe(
       take(1),
       tap(({ results }: Pagination) => this.characterList$$.next(results))
     ).subscribe();
   }
 
-  private handleCharactersAfterLoad(searchValue: string): Observable<Pagination> {
-    return this.searchService.search(searchValue, CHARACTER_LIST_URL).pipe(
+  private handleCharactersAfterLoad$(searchValue: string): Observable<Pagination> {
+    return this.searchService.search$(searchValue, CHARACTER_LIST_URL).pipe(
       tap(({ results }: Pagination) => {
         this.isExistResults$$.next(!!results.length);
         this.isLoading$$.next(false);

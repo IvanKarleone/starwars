@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { CharacterListComponent } from "./pages/character-list/character-list.component";
 import { CharacterFilmographyComponent } from "./pages/character-filmography/character-filmography.component";
 import { GetEntityIdPipe } from "./shared/pipes/get-entity-id.pipe";
+import { GetFilmIdsPipe } from "./shared/pipes/get-film-ids.pipe";
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { GetEntityIdPipe } from "./shared/pipes/get-entity-id.pipe";
     CharacterListComponent,
     CharacterFilmographyComponent,
     GetEntityIdPipe,
+    GetFilmIdsPipe,
   ],
   bootstrap: [AppComponent]
 })

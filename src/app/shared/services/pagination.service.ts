@@ -13,7 +13,7 @@ export class PaginationService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getPagination(url: string, params = new HttpParams()): Observable<Pagination> {
+  getPagination$(url: string, params = new HttpParams()): Observable<Pagination> {
     this.page++;
 
     params = params.set('page', this.page);
