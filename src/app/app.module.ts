@@ -6,6 +6,8 @@ import { ReactiveFormsModule} from "@angular/forms";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CharacterListComponent } from "./pages/character-list/character-list.component";
+import { CharacterFilmographyComponent } from "./pages/character-filmography/character-filmography.component";
+import { GetEntityIdPipe } from "./shared/pipes/get-entity-id.pipe";
 
 @NgModule({
   imports: [
@@ -16,7 +18,9 @@ import { CharacterListComponent } from "./pages/character-list/character-list.co
   ],
   declarations: [
     AppComponent,
-    CharacterListComponent
+    CharacterListComponent,
+    CharacterFilmographyComponent,
+    GetEntityIdPipe,
   ],
   bootstrap: [AppComponent]
 })
