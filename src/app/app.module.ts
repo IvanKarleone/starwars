@@ -9,6 +9,7 @@ import { CharacterListComponent } from "./pages/character-list/character-list.co
 import { CharacterFilmographyComponent } from "./pages/character-filmography/character-filmography.component";
 import { GetEntityIdPipe } from "./shared/pipes/get-entity-id.pipe";
 import { GetFilmIdsPipe } from "./shared/pipes/get-film-ids.pipe";
+import { BackButtonComponent } from './shared/components/back-button/back-button.component';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { GetFilmIdsPipe } from "./shared/pipes/get-film-ids.pipe";
     CharacterFilmographyComponent,
     GetEntityIdPipe,
     GetFilmIdsPipe,
+    BackButtonComponent,
   ],
   bootstrap: [AppComponent]
 })
