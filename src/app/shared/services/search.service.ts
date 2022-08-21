@@ -9,9 +9,9 @@ import { Pagination } from "../models/pagination";
 export class SearchService {
   constructor(private paginationService: PaginationService) { }
 
-  search(value: string, url: string): Observable<Pagination> {
+  search$(value: string, url: string): Observable<Pagination> {
     const params = new HttpParams().set('search', value);
 
-    return this.paginationService.getPagination(url, params);
+    return this.paginationService.getPagination$(url, params);
   }
 }
