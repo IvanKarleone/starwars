@@ -20,7 +20,7 @@
       <li
         class="list-item"
         *ngFor="let character of characterListService.characterList$ | async; trackBy: trackByFn">
-        <a class="list-item-link">
+        <a class="list-item-link" [routerLink]="['/', 'character-filmography', character | getEntityId]">
           <h2>{{character.name}}</h2>
           <img class="list-item-img" src="assets/imgs/user.svg" width="16" height="16" alt="Character photo">
         </a>
