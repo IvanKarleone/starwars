@@ -1,0 +1,28 @@
+.main-header {
+  display: flex;
+  justify-content: space-between;
+
+  margin-bottom: 20px;
+}
+
+.table {
+  width: 100%;
+
+  border: 1px solid;
+  border-collapse: collapse;
+
+  .cell {
+    text-align: left;
+    font-size: 18px;
+
+    border: 1px solid;
+  }
+
+  .title-cell {
+    width: 40%;
+  }
+
+  .episode-cell, .release-date-cell, .director-cell {
+    width: 20%;
+  }
+}

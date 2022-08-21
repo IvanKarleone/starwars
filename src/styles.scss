@@ -22,6 +22,10 @@ a {
   text-decoration: none;
 }
 
+button {
+  padding: 0;
+}
+
 .visually-hidden {
   position: absolute;
 
@@ -40,4 +44,10 @@ a {
 
 .mb-10 {
   margin-bottom: 10px;
+}
+
+.btn {
+  padding: 5px 10px;
+  border-radius: 4px;
+  border-width: 1px;
 }

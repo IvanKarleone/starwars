@@ -13,7 +13,12 @@
       class="search-field-error">
       Available only lettres, numbers and symbol "-"
     </p>
-    <button type="submit" [disabled]="searchForm.invalid || (characterListService.isLoading$ | async)">Search</button>
+    <button
+      class="btn"
+      type="submit"
+      [disabled]="searchForm.invalid || (characterListService.isLoading$ | async)">
+      Search
+    </button>
   </form>
   <ng-container *ngIf="characterListService.isExistResults$ | async; else noResults">
     <ul class="list">
@@ -32,7 +37,7 @@
     <p *ngIf="characterListService.isLoading$ | async" class="loading">Loading...</p>
     <div class="show-more-container">
       <button
-        class="show-more-btn"
+        class="btn"
         [disabled]="!(characterListService.isAvailablePagination$ | async) || (characterListService.isLoading$ | async)"
         (click)="clickShowMore()">
         Show more
