@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { ReactiveFormsModule} from "@angular/forms";
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,6 +11,9 @@ import { GetEntityIdPipe } from "./shared/pipes/get-entity-id.pipe";
 import { GetFilmIdsPipe } from "./shared/pipes/get-film-ids.pipe";
 import { BackButtonComponent } from './shared/components/back-button/back-button.component';
 import { InfoBlockComponent } from './shared/components/info-block/info-block.component';
+import { CacheInterceptor } from "./shared/interceptors/cache.interceptor";
+import { STORAGE_TOKEN } from "./shared/tokens/storage.token";
+import { LocalStorageService } from "./shared/services/local-storage.service";
 
 @NgModule({
   imports: [
@@ -27,6 +30,17 @@ import { InfoBlockComponent } from './shared/components/info-block/info-block.co
     GetFilmIdsPipe,
     BackButtonComponent,
     InfoBlockComponent,
+  ],
+  providers: [
+    {
+      provide: STORAGE_TOKEN,
+      useClass: LocalStorageService,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CacheInterceptor,
+      multi: true
+    },
   ],
   bootstrap: [AppComponent]
 })
