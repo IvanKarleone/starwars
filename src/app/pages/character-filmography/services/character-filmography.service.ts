@@ -1,12 +1,15 @@
 import { Injectable, OnDestroy } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, forkJoin, map, Observable, tap } from "rxjs";
+import { BehaviorSubject, forkJoin, map, Observable, take, tap } from "rxjs";
 
 import { Film } from "../../../shared/models/film";
 import { CHARACTER_FILMOGRAPHY_URL } from "../../../shared/helpers/urls";
 
 @Injectable()
 export class CharacterFilmographyService implements OnDestroy {
+  private readonly films$$ = new BehaviorSubject<Film[]>([]);
+  readonly films$ = this.films$$.asObservable();
+
   private readonly isLoading$$ = new BehaviorSubject(false);
   readonly isLoading$ = this.isLoading$$.asObservable();
 
@@ -20,16 +23,23 @@ export class CharacterFilmographyService implements OnDestroy {
     this.isExistResults$$.complete();
   }
 
-  loadFilmography(filmIds: string): Observable<Film[]> {
-    this.isExistResults$$.next(!!filmIds);
-    this.isLoading$$.next(true);
+  loadFilmography(filmIds: string): void {
+    if (!filmIds) {
+      this.isExistResults$$.next(false);
+      return;
+    }
 
+    this.isLoading$$.next(true);
     const requests = this.getRequests(filmIds);
 
-    return forkJoin(requests).pipe(
+    forkJoin(requests).pipe(
+      take(1),
       map((films: Film[]) => films.sort((a: Film, b: Film) => a.episode_id - b.episode_id)),
-      tap(() => this.isLoading$$.next(false))
-    );
+      tap((films: Film[]) => {
+        this.films$$.next(films);
+        this.isLoading$$.next(false);
+      })
+    ).subscribe();
   }
 
   private getRequests(filmIds: string): Observable<Film>[] {

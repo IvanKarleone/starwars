@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
-import { Observable, of, switchMap } from "rxjs";
+import { take, tap } from "rxjs";
 
 import { CharacterFilmographyService } from "./services/character-filmography.service";
-import { Film } from "../../shared/models/film";
+import { InfoMessage } from "../../shared/enums/info-message";
 
 @Component({
   selector: 'app-character-filmography',
@@ -15,10 +15,10 @@ import { Film } from "../../shared/models/film";
   ]
 })
 export class CharacterFilmographyComponent implements OnInit {
-  filmography$: Observable<Film[]> = of([]);
+  readonly infoMessage = InfoMessage;
 
   constructor(
-    private characterFilmographyService: CharacterFilmographyService,
+    public characterFilmographyService: CharacterFilmographyService,
     private activatedRoute: ActivatedRoute,
   ) { }
 
@@ -27,8 +27,9 @@ export class CharacterFilmographyComponent implements OnInit {
   }
 
   private loadFilmography(): void {
-    this.filmography$ = this.activatedRoute.queryParams.pipe(
-      switchMap((queryParams: Params) => this.characterFilmographyService.loadFilmography(queryParams['films']))
-    );
+    this.activatedRoute.queryParams.pipe(
+      take(1),
+      tap((queryParams: Params) => this.characterFilmographyService.loadFilmography(queryParams['films']))
+    ).subscribe();
   }
 }

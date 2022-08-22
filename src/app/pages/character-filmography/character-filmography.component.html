@@ -3,21 +3,33 @@
     <h1>Character filmography</h1>
     <app-back-button></app-back-button>
   </header>
-  <table class="table">
-    <thead>
-      <tr>
-        <th class="cell title-cell">Title</th>
-        <th class="cell episode-cell">Episode</th>
-        <th class="cell release-date-cell">Release Date</th>
-        <th class="cell director-cell">Director</th>
-    </thead>
-    <tbody>
-      <tr *ngFor="let film of filmography$ | async">
-        <td class="cell">{{film.title}}</td>
-        <td class="cell">{{film.episode_id}}</td>
-        <td class="cell">{{film.release_date | date:'longDate'}}</td>
-        <td class="cell">{{film.director}}</td>
-      </tr>
-    </tbody>
-  </table>
+  <ng-container *ngIf="characterFilmographyService.isExistResults$ | async; else noResults">
+    <ng-container *ngIf="!(characterFilmographyService.isLoading$ | async); else loading">
+      <table class="table">
+        <thead>
+        <tr>
+          <th class="cell title-cell">Title</th>
+          <th class="cell episode-cell">Episode</th>
+          <th class="cell release-date-cell">Release Date</th>
+          <th class="cell director-cell">Director</th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let film of characterFilmographyService.films$ | async">
+          <td class="cell">{{film.title}}</td>
+          <td class="cell">{{film.episode_id}}</td>
+          <td class="cell">{{film.release_date | date:'longDate'}}</td>
+          <td class="cell">{{film.director}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </ng-container>
+  </ng-container>
 </main>
+
+<ng-template #noResults>
+  <app-info-block [message]="infoMessage.NoResults"></app-info-block>
+</ng-template>
+
+<ng-template #loading>
+  <app-info-block [message]="infoMessage.Loading"></app-info-block>
+</ng-template>
