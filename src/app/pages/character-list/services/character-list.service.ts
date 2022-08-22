@@ -17,7 +17,7 @@ export class CharacterListService implements OnDestroy {
     shareReplay(1),
   );
 
-  private readonly isExistResults$$ = new BehaviorSubject(false);
+  private readonly isExistResults$$ = new BehaviorSubject(true);
   readonly isExistResults$ = this.isExistResults$$.asObservable();
 
   readonly isAvailablePagination$ = this.paginationService.isAvailable$;
