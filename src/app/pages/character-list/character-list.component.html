@@ -34,7 +34,11 @@
         </a>
       </li>
     </ul>
-    <p *ngIf="characterListService.isLoading$ | async" class="loading">Loading...</p>
+    <app-info-block
+      class="loading"
+      *ngIf="characterListService.isLoading$ | async"
+      [message]="infoMessage.Loading">
+    </app-info-block>
     <div class="show-more-container">
       <button
         class="btn"
@@ -47,5 +51,5 @@
 </main>
 
 <ng-template #noResults>
-  <p class="no-results">No results :(</p>
+  <app-info-block [message]="infoMessage.NoResults"></app-info-block>
 </ng-template>

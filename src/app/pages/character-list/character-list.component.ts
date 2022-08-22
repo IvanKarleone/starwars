@@ -6,6 +6,7 @@ import { PaginationService } from "../../shared/services/pagination.service";
 import { SearchService } from "../../shared/services/search.service";
 import { Character } from "../../shared/models/character";
 import { SearchForm } from "./models/search-form";
+import { InfoMessage } from "../../shared/enums/info-message";
 
 @Component({
   selector: 'app-character-list',
@@ -22,6 +23,8 @@ export class CharacterListComponent implements OnInit {
   readonly searchForm = new FormGroup<SearchForm>({
     search: new FormControl<string>('', { nonNullable: true })
   });
+
+  readonly infoMessage = InfoMessage;
 
   get searchControl(): FormControl<string> {
     return this.searchForm.controls.search;
