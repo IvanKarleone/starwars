@@ -10,9 +10,7 @@ import { Pagination } from "../../../shared/models/pagination";
 @Injectable()
 export class CharacterListService implements OnDestroy {
   private readonly characterList$$ = new BehaviorSubject<Character[]>([]);
-  readonly characterList$ = this.characterList$$.pipe(
-    shareReplay(1),
-  );
+  readonly characterList$ = this.characterList$$.asObservable();
 
   private readonly isLoading$$ = new BehaviorSubject(false);
   readonly isLoading$ = this.isLoading$$.pipe(
@@ -20,9 +18,7 @@ export class CharacterListService implements OnDestroy {
   );
 
   private readonly isExistResults$$ = new BehaviorSubject(false);
-  readonly isExistResults$ = this.isExistResults$$.pipe(
-    shareReplay(1),
-  );
+  readonly isExistResults$ = this.isExistResults$$.asObservable();
 
   readonly isAvailablePagination$ = this.paginationService.isAvailable$;
 

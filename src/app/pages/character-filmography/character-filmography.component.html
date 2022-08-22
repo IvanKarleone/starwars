@@ -12,11 +12,11 @@
         <th class="cell director-cell">Director</th>
     </thead>
     <tbody>
-      <tr>
-        <td class="cell"></td>
-        <td class="cell"></td>
-        <td class="cell"></td>
-        <td class="cell"></td>
+      <tr *ngFor="let film of filmography$ | async">
+        <td class="cell">{{film.title}}</td>
+        <td class="cell">{{film.episode_id}}</td>
+        <td class="cell">{{film.release_date | date:'longDate'}}</td>
+        <td class="cell">{{film.director}}</td>
       </tr>
     </tbody>
   </table>
