@@ -1,0 +1,12 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.message {
+  margin: 0 0 10px 0;
+
+  font-size: 30px;
+  font-weight: bold;
+}

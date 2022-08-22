@@ -14,6 +14,8 @@ import { InfoBlockComponent } from './shared/components/info-block/info-block.co
 import { CacheInterceptor } from "./shared/interceptors/cache.interceptor";
 import { STORAGE_TOKEN } from "./shared/tokens/storage.token";
 import { LocalStorageService } from "./shared/services/local-storage.service";
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { NotFoundInterceptor } from "./shared/interceptors/not-found.interceptor";
 
 @NgModule({
   imports: [
@@ -30,6 +32,7 @@ import { LocalStorageService } from "./shared/services/local-storage.service";
     GetFilmIdsPipe,
     BackButtonComponent,
     InfoBlockComponent,
+    NotFoundComponent,
   ],
   providers: [
     {
@@ -41,6 +44,11 @@ import { LocalStorageService } from "./shared/services/local-storage.service";
       useClass: CacheInterceptor,
       multi: true
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: NotFoundInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
